@@ -1,5 +1,5 @@
 [project]
-name = "mini-agent"
+name = "ducky"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -13,8 +13,8 @@ dependencies = [
     "python-dotenv>=1.2.2",
 ]
 
-[project.scripts]
-mini-agent = "mini_agent:main"
+[project.script]
+ducky = "ducky:main"
 
 [build-system]
 requires = ["uv_build>=0.12.3,<0.13.0"]
