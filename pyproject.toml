@@ -11,6 +11,7 @@ dependencies = [
     "litellm>=1.105.0",
     "ollama>=0.6.2",
     "pydantic-ai>=2.29.0",
+    "pytest>=9.1.1",
     "python-dotenv>=1.2.2",
 ]
 
@@ -20,3 +21,11 @@ ducky = "ducky:main"
 [build-system]
 requires = ["uv_build>=0.12.3,<0.13.0"]
 build-backend = "uv_build"
+
+[tools.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
