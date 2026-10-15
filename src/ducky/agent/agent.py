@@ -8,6 +8,8 @@ import os
 import subprocess
 from litellm import completion
 import re
+from typing import Any
+from ducky import Model
 
 
 ''' class Agent:
@@ -35,7 +37,7 @@ import re
 # things required to implement
 def query_lm(messages: list[dict[str, str]]) -> str:
     response = completion(
-            model = "groq/qwen/qwen3.8-27b",
+            model = "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
             messages = messages
         )
     return response.choices[0].message.content 
@@ -70,10 +72,10 @@ messages = [{
     "content": "You are a helpful assistant. When you want to run a command, wrap it in ```bash-action\n<command>\n```. To finish, run the exit command."
     }, {
         "role": "user", 
-        "content": "List the files in the current directory"
+        "content": "Write some info about attention mechanism in tests_by_agent directory in a file name Attention-mech-info.txt."
         }]
 
-while True:
+'''while True:
     lm_output = query_lm(messages)
     print("LM output", lm_output)
     messages.append({"role": "assistant", "content": lm_output}) # remembering what LM said
@@ -84,5 +86,36 @@ while True:
     output = execute_actions(action)
     print("Output", output)
     messages.append({"role": "user", "content": output})   # sending command output back
+'''
 
+class Agent:
+    """ Agent Class, consists of following functions:
+            def fun: 
+            def step:
+            def query:
+            def execute_actions:
+
+        """
+    def __init__(self, model: Model):
+        self.model = model
+        #self.env = env
+        self.messages: list[dict] = []
+
+    #def run(self, task: str = "") -> dict:
+
+
+    def add_messages(self, *messages: dict) -> str:
+        self.messages.extend(messages)
+        return list(messages)
+
+    #def step(self) -> list[dict]:
+    #    """ Query the LM, Execute the Action """
+    #    return self.execute_actions(self.query())
+
+    def query(self) -> dict:
+        """ Query the model and return model messages. Override to add hooks."""
+        self.n_calls += 1
+        messages = self.model.query(self.messages)
+        self.add_messages(*messages)
+        return messages
 
