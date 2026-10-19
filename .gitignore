@@ -6,3 +6,4 @@ pycache/
 *$py.class
 
 tests_by_agent/
+reqs/
