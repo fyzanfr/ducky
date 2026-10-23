@@ -2,8 +2,9 @@ import os
 import subprocess
 from pathlib import Path
 from typing import Mapping
+import platform
 
-from ducky.env import ExecResult
+from ducky import ExecResult, Env
 
 class LocalEnvironment:
     """Execute shell commands on the local machine."""
@@ -96,3 +97,14 @@ class LocalEnvironment:
         """No persistent resources to release."""
         pass
 
+
+    def get_info(self) -> dict[str, str]:
+        info = platform.uname()
+
+        return {
+                "system": info.system,
+                "release": info.release,
+                "version": info.version,
+                "machine": info.machine,
+                "working_directory": str(self.cwd),
+            }
