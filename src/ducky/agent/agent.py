@@ -11,6 +11,11 @@ from typing import Any
 from ducky import Model
 
 
+
+class StepLimitError(Exception):
+    """Raised when an agent exhausts its model-call budget."""
+
+
 class Agent:
     """ Base class for a ReAct agent with pluggale tools. """
     def __init__(self, 
@@ -36,8 +41,10 @@ class Agent:
         return prompt
 
     
-    def execute_tool(self, messages:dict) -> list[dict]:
-        """Execute domain-specific calls and return linked tool observations.""" 
+    def execute_tool(
+            self, tool_calls:list[dict[str, Any]]
+            ) -> list[dict]: 
+        """Execute domain-specific tool_calls and return thier observations.""" 
         # not implemented cause its domain-specific
         raise NotImplementedError
 
@@ -98,6 +105,7 @@ class Agent:
                 message = self.query()
                 self.msgs.append(message)
                 tool_calls = message.get("tool_calls", [])
+
                 if tool_calls:
                     tool_results = self.execute_tool(tool_calls)
                     self.msgs.extend(tool_results)
